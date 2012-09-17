@@ -53,8 +53,16 @@ public class CallableMonitor extends WrappedMonitor {
      */
     protected <T> T call(Callable<T> callable, boolean allowRetry) throws RemoteException {
         try {
-            return callable.call();
+            try {
+                return callable.call();
+            } catch(WrappedException err) {
+                Throwable cause = err.getCause();
+                if(cause instanceof RemoteException) throw (RemoteException)cause;
+                throw err;
+            }
         } catch(RemoteException err) {
+            throw err;
+        } catch(RuntimeException err) {
             throw err;
         } catch(Exception err) {
             throw new RuntimeException(err.getMessage(), err);
