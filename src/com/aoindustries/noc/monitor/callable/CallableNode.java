@@ -11,6 +11,7 @@ import com.aoindustries.noc.monitor.wrapper.WrappedNode;
 import com.aoindustries.util.WrappedException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 /**
@@ -111,6 +112,18 @@ public class CallableNode extends WrappedNode {
     }
     
     @Override
+    final public UUID getUuid() throws RemoteException {
+        return monitor.call(
+            new Callable<UUID>() {
+                @Override
+                public UUID call() throws RemoteException {
+                    return CallableNode.super.getUuid();
+                }
+            }
+        );
+    }
+
+    @Override
     final public boolean equals(final Object O) {
         try {
             return monitor.call(
@@ -134,6 +147,22 @@ public class CallableNode extends WrappedNode {
                     @Override
                     public Integer call() {
                         return CallableNode.super.hashCode();
+                    }
+                }
+            );
+        } catch(RemoteException e) {
+            throw new WrappedException(e);
+        }
+    }
+
+    @Override
+    final public String toString() {
+        try {
+            return monitor.call(
+                new Callable<String>() {
+                    @Override
+                    public String call() {
+                        return CallableNode.super.toString();
                     }
                 }
             );
