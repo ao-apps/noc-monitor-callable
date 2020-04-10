@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -31,118 +31,118 @@ import java.util.concurrent.Callable;
  */
 public class CallableMonitor extends WrappedMonitor {
 
-    public CallableMonitor(Monitor wrapped) {
-        super(wrapped);
-    }
+	public CallableMonitor(Monitor wrapped) {
+		super(wrapped);
+	}
 
-    public CallableMonitor() {
-        super();
-    }
+	public CallableMonitor() {
+		super();
+	}
 
-    // <editor-fold defaultstate="collapsed" desc="Callable">
-    /**
-     * Performs the call on the wrapped object, allowing retry.
-     */
-    final protected <T> T call(Callable<T> callable) throws RemoteException {
-        return call(callable, true);
-    }
+	// <editor-fold defaultstate="collapsed" desc="Callable">
+	/**
+	 * Performs the call on the wrapped object, allowing retry.
+	 */
+	final protected <T> T call(Callable<T> callable) throws RemoteException {
+		return call(callable, true);
+	}
 
-    /**
-     * Performs the call on the wrapped object.  This is the main hook to intercept requests
-     * for features like auto-reconnects, timeouts, and retries.
-     */
-    protected <T> T call(Callable<T> callable, boolean allowRetry) throws RemoteException {
-        try {
-            try {
-                return callable.call();
-            } catch(WrappedException err) {
-                Throwable cause = err.getCause();
-                if(cause instanceof RemoteException) throw (RemoteException)cause;
-                throw err;
-            }
-        } catch(RemoteException err) {
-            throw err;
-        } catch(RuntimeException err) {
-            throw err;
-        } catch(Exception err) {
-            throw new RuntimeException(err.getMessage(), err);
-        }
-    }
-    // </editor-fold>
+	/**
+	 * Performs the call on the wrapped object.  This is the main hook to intercept requests
+	 * for features like auto-reconnects, timeouts, and retries.
+	 */
+	protected <T> T call(Callable<T> callable, boolean allowRetry) throws RemoteException {
+		try {
+			try {
+				return callable.call();
+			} catch(WrappedException err) {
+				Throwable cause = err.getCause();
+				if(cause instanceof RemoteException) throw (RemoteException)cause;
+				throw err;
+			}
+		} catch(RemoteException err) {
+			throw err;
+		} catch(RuntimeException err) {
+			throw err;
+		} catch(Exception err) {
+			throw new RuntimeException(err.getMessage(), err);
+		}
+	}
+	// </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Monitor">
-    /**
-     * Gets the root node for the given locale, username, and password.  May
-     * reuse existing root nodes.
-     */
-    @Override
-    final public CallableRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
-        try {
-            return call(
-                new Callable<CallableRootNode>() {
-                    @Override
-                    public CallableRootNode call() throws RemoteException {
-                        try {
-                            return (CallableRootNode)CallableMonitor.super.login(locale, username, password);
-                        } catch(IOException e) {
-                            throw new WrappedException(e);
-                        } catch(SQLException e) {
-                            throw new WrappedException(e);
-                        }
-                    }
-                }
-            );
-        } catch(WrappedException e) {
-            Throwable cause = e.getCause();
-            if(cause instanceof IOException) throw (IOException)cause;
-            if(cause instanceof SQLException) throw (SQLException)cause;
-            throw e;
-        }
-    }
-    // </editor-fold>
+	// <editor-fold defaultstate="collapsed" desc="Monitor">
+	/**
+	 * Gets the root node for the given locale, username, and password.  May
+	 * reuse existing root nodes.
+	 */
+	@Override
+	final public CallableRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
+		try {
+			return call(
+				new Callable<CallableRootNode>() {
+					@Override
+					public CallableRootNode call() throws RemoteException {
+						try {
+							return (CallableRootNode)CallableMonitor.super.login(locale, username, password);
+						} catch(IOException e) {
+							throw new WrappedException(e);
+						} catch(SQLException e) {
+							throw new WrappedException(e);
+						}
+					}
+				}
+			);
+		} catch(WrappedException e) {
+			Throwable cause = e.getCause();
+			if(cause instanceof IOException) throw (IOException)cause;
+			if(cause instanceof SQLException) throw (SQLException)cause;
+			throw e;
+		}
+	}
+	// </editor-fold>
 
-    @Override
-    protected CallableNode newWrappedNode(Node node) throws RemoteException {
-        return new CallableNode(this, node);
-    }
+	@Override
+	protected CallableNode newWrappedNode(Node node) throws RemoteException {
+		return new CallableNode(this, node);
+	}
 
-    @Override
-    protected CallableRootNode newWrappedRootNode(RootNode node) throws RemoteException {
-        return new CallableRootNode(this, node);
-    }
+	@Override
+	protected CallableRootNode newWrappedRootNode(RootNode node) throws RemoteException {
+		return new CallableRootNode(this, node);
+	}
 
-    @Override
-    protected CallableSingleResultNode newWrappedSingleResultNode(SingleResultNode node) throws RemoteException {
-        return new CallableSingleResultNode(this, node);
-    }
+	@Override
+	protected CallableSingleResultNode newWrappedSingleResultNode(SingleResultNode node) throws RemoteException {
+		return new CallableSingleResultNode(this, node);
+	}
 
-    @Override
-    protected <R extends TableMultiResult> CallableTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
-        return new CallableTableMultiResultNode<R>(this, node);
-    }
+	@Override
+	protected <R extends TableMultiResult> CallableTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
+		return new CallableTableMultiResultNode<R>(this, node);
+	}
 
-    @Override
-    protected CallableTableResultNode newWrappedTableResultNode(TableResultNode node) throws RemoteException {
-        return new CallableTableResultNode(this, node);
-    }
+	@Override
+	protected CallableTableResultNode newWrappedTableResultNode(TableResultNode node) throws RemoteException {
+		return new CallableTableResultNode(this, node);
+	}
 
-    @Override
-    protected CallableTreeListener newWrappedTreeListener(TreeListener treeListener) throws RemoteException {
-        return new CallableTreeListener(this, treeListener);
-    }
+	@Override
+	protected CallableTreeListener newWrappedTreeListener(TreeListener treeListener) throws RemoteException {
+		return new CallableTreeListener(this, treeListener);
+	}
 
-    @Override
-    protected CallableSingleResultListener newWrappedSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
-        return new CallableSingleResultListener(this, singleResultListener);
-    }
+	@Override
+	protected CallableSingleResultListener newWrappedSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
+		return new CallableSingleResultListener(this, singleResultListener);
+	}
 
-    @Override
-    protected <R extends TableMultiResult> CallableTableMultiResultListener<R> newWrappedTableMultiResultListener(TableMultiResultListener<R> tableMultiResultListener) throws RemoteException {
-        return new CallableTableMultiResultListener<R>(this, tableMultiResultListener);
-    }
+	@Override
+	protected <R extends TableMultiResult> CallableTableMultiResultListener<R> newWrappedTableMultiResultListener(TableMultiResultListener<R> tableMultiResultListener) throws RemoteException {
+		return new CallableTableMultiResultListener<R>(this, tableMultiResultListener);
+	}
 
-    @Override
-    protected CallableTableResultListener newWrappedTableResultListener(TableResultListener tableResultListener) throws RemoteException {
-        return new CallableTableResultListener(this, tableResultListener);
-    }
+	@Override
+	protected CallableTableResultListener newWrappedTableResultListener(TableResultListener tableResultListener) throws RemoteException {
+		return new CallableTableResultListener(this, tableResultListener);
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -17,48 +17,48 @@ import java.util.concurrent.Callable;
  */
 public class CallableTableResultNode extends WrappedTableResultNode {
 
-    final private CallableMonitor monitor;
+	final private CallableMonitor monitor;
 
-    protected CallableTableResultNode(CallableMonitor monitor, TableResultNode wrapped) {
-        super(monitor, wrapped);
-        this.monitor = monitor;
-    }
+	protected CallableTableResultNode(CallableMonitor monitor, TableResultNode wrapped) {
+		super(monitor, wrapped);
+		this.monitor = monitor;
+	}
 
-    @Override
-    final public void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    CallableTableResultNode.super.addTableResultListener(tableResultListener);
-                    return null;
-                }
-            }
-        );
-    }
+	@Override
+	final public void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+		monitor.call(
+			new Callable<Void>() {
+				@Override
+				public Void call() throws RemoteException {
+					CallableTableResultNode.super.addTableResultListener(tableResultListener);
+					return null;
+				}
+			}
+		);
+	}
 
-    @Override
-    final public void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    CallableTableResultNode.super.removeTableResultListener(tableResultListener);
-                    return null;
-                }
-            }
-        );
-    }
+	@Override
+	final public void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+		monitor.call(
+			new Callable<Void>() {
+				@Override
+				public Void call() throws RemoteException {
+					CallableTableResultNode.super.removeTableResultListener(tableResultListener);
+					return null;
+				}
+			}
+		);
+	}
 
-    @Override
-    final public TableResult getLastResult() throws RemoteException {
-        return monitor.call(
-            new Callable<TableResult>() {
-                @Override
-                public TableResult call() throws RemoteException {
-                    return CallableTableResultNode.super.getLastResult();
-                }
-            }
-        );
-    }
+	@Override
+	final public TableResult getLastResult() throws RemoteException {
+		return monitor.call(
+			new Callable<TableResult>() {
+				@Override
+				public TableResult call() throws RemoteException {
+					return CallableTableResultNode.super.getLastResult();
+				}
+			}
+		);
+	}
 }

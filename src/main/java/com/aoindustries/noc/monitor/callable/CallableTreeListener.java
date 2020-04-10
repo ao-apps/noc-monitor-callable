@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -18,81 +18,81 @@ import java.util.concurrent.Callable;
  */
 public class CallableTreeListener extends WrappedTreeListener {
 
-    final private CallableMonitor monitor;
+	final private CallableMonitor monitor;
 
-    protected CallableTreeListener(CallableMonitor monitor, TreeListener wrapped) {
-        super(monitor, wrapped);
-        this.monitor = monitor;
-    }
+	protected CallableTreeListener(CallableMonitor monitor, TreeListener wrapped) {
+		super(monitor, wrapped);
+		this.monitor = monitor;
+	}
 
-    @Override
-    final public void nodeAdded() throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    CallableTreeListener.super.nodeAdded();
-                    return null;
-                }
-            }
-        );
-    }
+	@Override
+	final public void nodeAdded() throws RemoteException {
+		monitor.call(
+			new Callable<Void>() {
+				@Override
+				public Void call() throws RemoteException {
+					CallableTreeListener.super.nodeAdded();
+					return null;
+				}
+			}
+		);
+	}
 
-    @Override
-    final public void nodeRemoved() throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    CallableTreeListener.super.nodeRemoved();
-                    return null;
-                }
-            }
-        );
-    }
+	@Override
+	final public void nodeRemoved() throws RemoteException {
+		monitor.call(
+			new Callable<Void>() {
+				@Override
+				public Void call() throws RemoteException {
+					CallableTreeListener.super.nodeRemoved();
+					return null;
+				}
+			}
+		);
+	}
 
-    @Override
-    final public void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    CallableTreeListener.super.nodeAlertLevelChanged(changes);
-                    return null;
-                }
-            }
-        );
-    }
+	@Override
+	final public void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
+		monitor.call(
+			new Callable<Void>() {
+				@Override
+				public Void call() throws RemoteException {
+					CallableTreeListener.super.nodeAlertLevelChanged(changes);
+					return null;
+				}
+			}
+		);
+	}
 
-    @Override
-    final public boolean equals(final Object O) {
-        try {
-            return monitor.call(
-                new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() {
-                        return CallableTreeListener.super.equals(O);
-                    }
-                }
-            );
-        } catch(RemoteException e) {
-            throw new WrappedException(e);
-        }
-    }
+	@Override
+	final public boolean equals(final Object O) {
+		try {
+			return monitor.call(
+				new Callable<Boolean>() {
+					@Override
+					public Boolean call() {
+						return CallableTreeListener.super.equals(O);
+					}
+				}
+			);
+		} catch(RemoteException e) {
+			throw new WrappedException(e);
+		}
+	}
 
-    @Override
-    final public int hashCode() {
-        try {
-            return monitor.call(
-                new Callable<Integer>() {
-                    @Override
-                    public Integer call() {
-                        return CallableTreeListener.super.hashCode();
-                    }
-                }
-            );
-        } catch(RemoteException e) {
-            throw new WrappedException(e);
-        }
-    }
+	@Override
+	final public int hashCode() {
+		try {
+			return monitor.call(
+				new Callable<Integer>() {
+					@Override
+					public Integer call() {
+						return CallableTreeListener.super.hashCode();
+					}
+				}
+			);
+		} catch(RemoteException e) {
+			throw new WrappedException(e);
+		}
+	}
 }
