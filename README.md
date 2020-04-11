@@ -21,12 +21,12 @@
 	</a>
 </p>
 
-Wrapper for implementing hooks and filters on [Monitoring API](https://aoindustries.com/noc-monitor-api/).
+Wrapper for implementing hooks and filters on [Monitoring API](https://github.com/aoindustries/noc-monitor-api).
 
 ## Project Links
-* [Project Home](https://aoindustries.com/noc-monitor-callable/)
-* [Changelog](https://aoindustries.com/noc-monitor-callable/changelog)
-* [API Docs](https://aoindustries.com/noc-monitor-callable/apidocs/)
+* [Project Home](https://aoindustries.com/noc/monitor/callable/)
+* [Changelog](https://aoindustries.com/noc/monitor/callable/changelog)
+* [API Docs](https://aoindustries.com/noc/monitor/callable/apidocs/)
 * [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-callable)
 * [GitHub](https://github.com/aoindustries/noc-monitor-callable)
 
