@@ -80,7 +80,7 @@ public class CallableMonitor extends WrappedMonitor {
 		} catch(Error | RuntimeException | RemoteException err) {
 			throw err;
 		} catch(Throwable t) {
-			throw new RuntimeException(t.getMessage(), t);
+			throw new WrappedException(t.getMessage(), t);
 		}
 	}
 	// </editor-fold>
