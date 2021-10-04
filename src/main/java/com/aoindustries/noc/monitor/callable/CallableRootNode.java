@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableRootNode extends WrappedRootNode {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableRootNode(CallableMonitor monitor, RootNode wrapped) {
 		super(monitor, wrapped);
@@ -44,7 +44,7 @@ public class CallableRootNode extends WrappedRootNode {
 	}
 
 	@Override
-	final public void addTreeListener(final TreeListener treeListener) throws RemoteException {
+	public final void addTreeListener(final TreeListener treeListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -57,7 +57,7 @@ public class CallableRootNode extends WrappedRootNode {
 	}
 
 	@Override
-	final public void removeTreeListener(final TreeListener treeListener) throws RemoteException {
+	public final void removeTreeListener(final TreeListener treeListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -70,7 +70,7 @@ public class CallableRootNode extends WrappedRootNode {
 	}
 
 	@Override
-	final public NodeSnapshot getSnapshot() throws RemoteException {
+	public final NodeSnapshot getSnapshot() throws RemoteException {
 		return monitor.call(
 			new Callable<NodeSnapshot>() {
 				@Override
@@ -82,7 +82,7 @@ public class CallableRootNode extends WrappedRootNode {
 	}
 
 	@Override
-	final public SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
+	public final SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
 		return monitor.call(
 			new Callable<SortedSet<MonitoringPoint>>() {
 				@Override

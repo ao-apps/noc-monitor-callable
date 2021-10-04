@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -35,7 +35,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableTableMultiResultNode<R extends TableMultiResult> extends WrappedTableMultiResultNode<R> {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableTableMultiResultNode(CallableMonitor monitor, TableMultiResultNode<R> wrapped) {
 		super(monitor, wrapped);
@@ -43,7 +43,7 @@ public class CallableTableMultiResultNode<R extends TableMultiResult> extends Wr
 	}
 
 	@Override
-	final public void addTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+	public final void addTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -56,7 +56,7 @@ public class CallableTableMultiResultNode<R extends TableMultiResult> extends Wr
 	}
 
 	@Override
-	final public void removeTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+	public final void removeTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -69,7 +69,7 @@ public class CallableTableMultiResultNode<R extends TableMultiResult> extends Wr
 	}
 
 	@Override
-	final public List<?> getColumnHeaders() throws RemoteException {
+	public final List<?> getColumnHeaders() throws RemoteException {
 		return monitor.call(
 			new Callable<List<?>>() {
 				@Override
@@ -81,7 +81,7 @@ public class CallableTableMultiResultNode<R extends TableMultiResult> extends Wr
 	}
 
 	@Override
-	final public List<? extends R> getResults() throws RemoteException {
+	public final List<? extends R> getResults() throws RemoteException {
 		return monitor.call(
 			new Callable<List<? extends R>>() {
 				@Override

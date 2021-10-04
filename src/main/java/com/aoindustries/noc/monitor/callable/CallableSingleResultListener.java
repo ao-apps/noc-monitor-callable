@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -34,7 +34,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableSingleResultListener extends WrappedSingleResultListener {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableSingleResultListener(CallableMonitor monitor, SingleResultListener wrapped) {
 		super(monitor, wrapped);
@@ -42,7 +42,7 @@ public class CallableSingleResultListener extends WrappedSingleResultListener {
 	}
 
 	@Override
-	final public void singleResultUpdated(final SingleResult singleResult) throws RemoteException {
+	public final void singleResultUpdated(final SingleResult singleResult) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -55,7 +55,7 @@ public class CallableSingleResultListener extends WrappedSingleResultListener {
 	}
 
 	@Override
-	final public boolean equals(final Object O) {
+	public final boolean equals(final Object O) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
@@ -71,7 +71,7 @@ public class CallableSingleResultListener extends WrappedSingleResultListener {
 	}
 
 	@Override
-	final public int hashCode() {
+	public final int hashCode() {
 		try {
 			return monitor.call(
 				new Callable<Integer>() {

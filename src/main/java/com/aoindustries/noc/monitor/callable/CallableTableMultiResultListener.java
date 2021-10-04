@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -34,7 +34,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableTableMultiResultListener<R extends TableMultiResult> extends WrappedTableMultiResultListener<R> {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableTableMultiResultListener(CallableMonitor monitor, TableMultiResultListener<R> wrapped) {
 		super(monitor, wrapped);
@@ -42,7 +42,7 @@ public class CallableTableMultiResultListener<R extends TableMultiResult> extend
 	}
 
 	@Override
-	final public void tableMultiResultAdded(final R multiTableResult) throws RemoteException {
+	public final void tableMultiResultAdded(final R multiTableResult) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -55,7 +55,7 @@ public class CallableTableMultiResultListener<R extends TableMultiResult> extend
 	}
 
 	@Override
-	final public void tableMultiResultRemoved(final R multiTableResult) throws RemoteException {
+	public final void tableMultiResultRemoved(final R multiTableResult) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -68,7 +68,7 @@ public class CallableTableMultiResultListener<R extends TableMultiResult> extend
 	}
 
 	@Override
-	final public boolean equals(final Object O) {
+	public final boolean equals(final Object O) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
@@ -84,7 +84,7 @@ public class CallableTableMultiResultListener<R extends TableMultiResult> extend
 	}
 
 	@Override
-	final public int hashCode() {
+	public final int hashCode() {
 		try {
 			return monitor.call(
 				new Callable<Integer>() {

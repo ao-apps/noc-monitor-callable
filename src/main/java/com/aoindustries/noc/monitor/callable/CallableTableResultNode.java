@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -34,7 +34,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableTableResultNode extends WrappedTableResultNode {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableTableResultNode(CallableMonitor monitor, TableResultNode wrapped) {
 		super(monitor, wrapped);
@@ -42,7 +42,7 @@ public class CallableTableResultNode extends WrappedTableResultNode {
 	}
 
 	@Override
-	final public void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+	public final void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -55,7 +55,7 @@ public class CallableTableResultNode extends WrappedTableResultNode {
 	}
 
 	@Override
-	final public void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+	public final void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -68,7 +68,7 @@ public class CallableTableResultNode extends WrappedTableResultNode {
 	}
 
 	@Override
-	final public TableResult getLastResult() throws RemoteException {
+	public final TableResult getLastResult() throws RemoteException {
 		return monitor.call(
 			new Callable<TableResult>() {
 				@Override

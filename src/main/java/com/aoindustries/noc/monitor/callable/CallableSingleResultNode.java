@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -34,7 +34,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableSingleResultNode extends WrappedSingleResultNode {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableSingleResultNode(CallableMonitor monitor, SingleResultNode wrapped) {
 		super(monitor, wrapped);
@@ -42,7 +42,7 @@ public class CallableSingleResultNode extends WrappedSingleResultNode {
 	}
 
 	@Override
-	final public void addSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
+	public final void addSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -55,7 +55,7 @@ public class CallableSingleResultNode extends WrappedSingleResultNode {
 	}
 
 	@Override
-	final public void removeSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
+	public final void removeSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -68,7 +68,7 @@ public class CallableSingleResultNode extends WrappedSingleResultNode {
 	}
 
 	@Override
-	final public SingleResult getLastResult() throws RemoteException {
+	public final SingleResult getLastResult() throws RemoteException {
 		return monitor.call(
 			new Callable<SingleResult>() {
 				@Override

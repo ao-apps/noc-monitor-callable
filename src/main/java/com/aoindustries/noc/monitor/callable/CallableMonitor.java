@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -60,7 +60,7 @@ public class CallableMonitor extends WrappedMonitor {
 	/**
 	 * Performs the call on the wrapped object, allowing retry.
 	 */
-	final protected <T> T call(Callable<T> callable) throws RemoteException {
+	protected final <T> T call(Callable<T> callable) throws RemoteException {
 		return call(callable, true);
 	}
 
@@ -91,7 +91,7 @@ public class CallableMonitor extends WrappedMonitor {
 	 * reuse existing root nodes.
 	 */
 	@Override
-	final public CallableRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
+	public final CallableRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
 		try {
 			return call(
 				new Callable<CallableRootNode>() {

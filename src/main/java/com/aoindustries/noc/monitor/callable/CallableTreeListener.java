@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -35,7 +35,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableTreeListener extends WrappedTreeListener {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableTreeListener(CallableMonitor monitor, TreeListener wrapped) {
 		super(monitor, wrapped);
@@ -43,7 +43,7 @@ public class CallableTreeListener extends WrappedTreeListener {
 	}
 
 	@Override
-	final public void nodeAdded() throws RemoteException {
+	public final void nodeAdded() throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -56,7 +56,7 @@ public class CallableTreeListener extends WrappedTreeListener {
 	}
 
 	@Override
-	final public void nodeRemoved() throws RemoteException {
+	public final void nodeRemoved() throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -69,7 +69,7 @@ public class CallableTreeListener extends WrappedTreeListener {
 	}
 
 	@Override
-	final public void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
+	public final void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
 		monitor.call(
 			new Callable<Void>() {
 				@Override
@@ -82,7 +82,7 @@ public class CallableTreeListener extends WrappedTreeListener {
 	}
 
 	@Override
-	final public boolean equals(final Object O) {
+	public final boolean equals(final Object O) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
@@ -98,7 +98,7 @@ public class CallableTreeListener extends WrappedTreeListener {
 	}
 
 	@Override
-	final public int hashCode() {
+	public final int hashCode() {
 		try {
 			return monitor.call(
 				new Callable<Integer>() {

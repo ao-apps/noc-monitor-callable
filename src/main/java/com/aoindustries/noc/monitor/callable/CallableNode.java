@@ -1,6 +1,6 @@
 /*
  * noc-monitor-callable - Wrapper for implementing hooks and filters on Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
  */
 public class CallableNode extends WrappedNode {
 
-	final private CallableMonitor monitor;
+	private final CallableMonitor monitor;
 
 	protected CallableNode(CallableMonitor monitor, Node wrapped) {
 		super(monitor, wrapped);
@@ -44,7 +44,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public CallableNode getParent() throws RemoteException {
+	public final CallableNode getParent() throws RemoteException {
 		return monitor.call(
 			new Callable<CallableNode>() {
 				@Override
@@ -56,7 +56,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public List<? extends CallableNode> getChildren() throws RemoteException {
+	public final List<? extends CallableNode> getChildren() throws RemoteException {
 		return monitor.call(
 			new Callable<List<? extends CallableNode>>() {
 				@Override
@@ -69,7 +69,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public AlertLevel getAlertLevel() throws RemoteException {
+	public final AlertLevel getAlertLevel() throws RemoteException {
 		return monitor.call(
 			new Callable<AlertLevel>() {
 				@Override
@@ -81,7 +81,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public String getAlertMessage() throws RemoteException {
+	public final String getAlertMessage() throws RemoteException {
 		return monitor.call(
 			new Callable<String>() {
 				@Override
@@ -93,7 +93,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public boolean getAllowsChildren() throws RemoteException {
+	public final boolean getAllowsChildren() throws RemoteException {
 		return monitor.call(
 			new Callable<Boolean>() {
 				@Override
@@ -105,7 +105,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public String getId() throws RemoteException {
+	public final String getId() throws RemoteException {
 		return monitor.call(
 			new Callable<String>() {
 				@Override
@@ -117,7 +117,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public String getLabel() throws RemoteException {
+	public final String getLabel() throws RemoteException {
 		return monitor.call(
 			new Callable<String>() {
 				@Override
@@ -129,7 +129,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public UUID getUuid() throws RemoteException {
+	public final UUID getUuid() throws RemoteException {
 		return monitor.call(
 			new Callable<UUID>() {
 				@Override
@@ -141,7 +141,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public boolean equals(final Object O) {
+	public final boolean equals(final Object O) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
@@ -157,7 +157,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public int hashCode() {
+	public final int hashCode() {
 		try {
 			return monitor.call(
 				new Callable<Integer>() {
@@ -173,7 +173,7 @@ public class CallableNode extends WrappedNode {
 	}
 
 	@Override
-	final public String toString() {
+	public final String toString() {
 		try {
 			return monitor.call(
 				new Callable<String>() {
