@@ -82,13 +82,13 @@ public class CallableTreeListener extends WrappedTreeListener {
 	}
 
 	@Override
-	public final boolean equals(final Object O) {
+	public final boolean equals(final Object obj) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
 					@Override
 					public Boolean call() {
-						return CallableTreeListener.super.equals(O);
+						return CallableTreeListener.super.equals(obj);
 					}
 				}
 			);

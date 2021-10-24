@@ -55,13 +55,13 @@ public class CallableTableResultListener extends WrappedTableResultListener {
 	}
 
 	@Override
-	public final boolean equals(final Object O) {
+	public final boolean equals(final Object obj) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
 					@Override
 					public Boolean call() {
-						return CallableTableResultListener.super.equals(O);
+						return CallableTableResultListener.super.equals(obj);
 					}
 				}
 			);

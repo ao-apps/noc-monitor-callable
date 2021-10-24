@@ -55,13 +55,13 @@ public class CallableSingleResultListener extends WrappedSingleResultListener {
 	}
 
 	@Override
-	public final boolean equals(final Object O) {
+	public final boolean equals(final Object obj) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
 					@Override
 					public Boolean call() {
-						return CallableSingleResultListener.super.equals(O);
+						return CallableSingleResultListener.super.equals(obj);
 					}
 				}
 			);

@@ -68,13 +68,13 @@ public class CallableTableMultiResultListener<R extends TableMultiResult> extend
 	}
 
 	@Override
-	public final boolean equals(final Object O) {
+	public final boolean equals(final Object obj) {
 		try {
 			return monitor.call(
 				new Callable<Boolean>() {
 					@Override
 					public Boolean call() {
-						return CallableTableMultiResultListener.super.equals(O);
+						return CallableTableMultiResultListener.super.equals(obj);
 					}
 				}
 			);
