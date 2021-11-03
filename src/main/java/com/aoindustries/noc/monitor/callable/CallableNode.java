@@ -29,7 +29,6 @@ import com.aoindustries.util.WrappedException;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -45,112 +44,48 @@ public class CallableNode extends WrappedNode {
 
 	@Override
 	public final CallableNode getParent() throws RemoteException {
-		return monitor.call(
-			new Callable<CallableNode>() {
-				@Override
-				public CallableNode call() throws RemoteException {
-					return (CallableNode)CallableNode.super.getParent();
-				}
-			}
-		);
+		return monitor.call(() -> (CallableNode)CallableNode.super.getParent());
 	}
 
 	@Override
 	public final List<? extends CallableNode> getChildren() throws RemoteException {
-		return monitor.call(
-			new Callable<List<? extends CallableNode>>() {
-				@Override
-				@SuppressWarnings("unchecked")
-				public List<? extends CallableNode> call() throws RemoteException {
-					return (List<? extends CallableNode>)CallableNode.super.getChildren();
-				}
-			}
-		);
+		return monitor.call(() -> (List<? extends CallableNode>)CallableNode.super.getChildren());
 	}
 
 	@Override
 	public final AlertLevel getAlertLevel() throws RemoteException {
-		return monitor.call(
-			new Callable<AlertLevel>() {
-				@Override
-				public AlertLevel call() throws RemoteException {
-					return CallableNode.super.getAlertLevel();
-				}
-			}
-		);
+		return monitor.call(CallableNode.super::getAlertLevel);
 	}
 
 	@Override
 	public final String getAlertMessage() throws RemoteException {
-		return monitor.call(
-			new Callable<String>() {
-				@Override
-				public String call() throws RemoteException {
-					return CallableNode.super.getAlertMessage();
-				}
-			}
-		);
+		return monitor.call(CallableNode.super::getAlertMessage);
 	}
 
 	@Override
 	public final boolean getAllowsChildren() throws RemoteException {
-		return monitor.call(
-			new Callable<Boolean>() {
-				@Override
-				public Boolean call() throws RemoteException {
-					return CallableNode.super.getAllowsChildren();
-				}
-			}
-		);
+		return monitor.call(CallableNode.super::getAllowsChildren);
 	}
 
 	@Override
 	public final String getId() throws RemoteException {
-		return monitor.call(
-			new Callable<String>() {
-				@Override
-				public String call() throws RemoteException {
-					return CallableNode.super.getId();
-				}
-			}
-		);
+		return monitor.call(CallableNode.super::getId);
 	}
 
 	@Override
 	public final String getLabel() throws RemoteException {
-		return monitor.call(
-			new Callable<String>() {
-				@Override
-				public String call() throws RemoteException {
-					return CallableNode.super.getLabel();
-				}
-			}
-		);
+		return monitor.call(() -> CallableNode.super::getLabel);
 	}
 
 	@Override
 	public final UUID getUuid() throws RemoteException {
-		return monitor.call(
-			new Callable<UUID>() {
-				@Override
-				public UUID call() throws RemoteException {
-					return CallableNode.super.getUuid();
-				}
-			}
-		);
+		return monitor.call(CallableNode.super::getUuid);
 	}
 
 	@Override
 	public final boolean equals(final Object obj) {
 		try {
-			return monitor.call(
-				new Callable<Boolean>() {
-					@Override
-					public Boolean call() {
-						return CallableNode.super.equals(obj);
-					}
-				}
-			);
+			return monitor.call(() -> CallableNode.super.equals(obj));
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}
@@ -159,14 +94,7 @@ public class CallableNode extends WrappedNode {
 	@Override
 	public final int hashCode() {
 		try {
-			return monitor.call(
-				new Callable<Integer>() {
-					@Override
-					public Integer call() {
-						return CallableNode.super.hashCode();
-					}
-				}
-			);
+			return monitor.call(CallableNode.super::hashCode);
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}
@@ -175,14 +103,7 @@ public class CallableNode extends WrappedNode {
 	@Override
 	public final String toString() {
 		try {
-			return monitor.call(
-				new Callable<String>() {
-					@Override
-					public String call() {
-						return CallableNode.super.toString();
-					}
-				}
-			);
+			return monitor.call(CallableNode.super::toString);
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}

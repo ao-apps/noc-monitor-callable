@@ -28,7 +28,6 @@ import com.aoindustries.noc.monitor.common.TableMultiResultNode;
 import com.aoindustries.noc.monitor.wrapper.WrappedTableMultiResultNode;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -44,51 +43,21 @@ public class CallableTableMultiResultNode<R extends TableMultiResult> extends Wr
 
 	@Override
 	public final void addTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTableMultiResultNode.super.addTableMultiResultListener(tableMultiResultListener);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableTableMultiResultNode.super.addTableMultiResultListener(tableMultiResultListener));
 	}
 
 	@Override
 	public final void removeTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTableMultiResultNode.super.removeTableMultiResultListener(tableMultiResultListener);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableTableMultiResultNode.super.removeTableMultiResultListener(tableMultiResultListener));
 	}
 
 	@Override
 	public final List<?> getColumnHeaders() throws RemoteException {
-		return monitor.call(
-			new Callable<List<?>>() {
-				@Override
-				public List<?> call() throws RemoteException {
-					return CallableTableMultiResultNode.super.getColumnHeaders();
-				}
-			}
-		);
+		return monitor.call(CallableTableMultiResultNode.super::getColumnHeaders);
 	}
 
 	@Override
 	public final List<? extends R> getResults() throws RemoteException {
-		return monitor.call(
-			new Callable<List<? extends R>>() {
-				@Override
-				public List<? extends R> call() throws RemoteException {
-					return CallableTableMultiResultNode.super.getResults();
-				}
-			}
-		);
+		return monitor.call(CallableTableMultiResultNode.super::getResults);
 	}
 }

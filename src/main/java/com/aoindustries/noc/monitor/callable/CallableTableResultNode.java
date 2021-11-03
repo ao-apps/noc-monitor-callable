@@ -27,7 +27,6 @@ import com.aoindustries.noc.monitor.common.TableResultListener;
 import com.aoindustries.noc.monitor.common.TableResultNode;
 import com.aoindustries.noc.monitor.wrapper.WrappedTableResultNode;
 import java.rmi.RemoteException;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -43,39 +42,16 @@ public class CallableTableResultNode extends WrappedTableResultNode {
 
 	@Override
 	public final void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTableResultNode.super.addTableResultListener(tableResultListener);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableTableResultNode.super.addTableResultListener(tableResultListener));
 	}
 
 	@Override
 	public final void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTableResultNode.super.removeTableResultListener(tableResultListener);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableTableResultNode.super.removeTableResultListener(tableResultListener));
 	}
 
 	@Override
 	public final TableResult getLastResult() throws RemoteException {
-		return monitor.call(
-			new Callable<TableResult>() {
-				@Override
-				public TableResult call() throws RemoteException {
-					return CallableTableResultNode.super.getLastResult();
-				}
-			}
-		);
+		return monitor.call(CallableTableResultNode.super::getLastResult);
 	}
 }

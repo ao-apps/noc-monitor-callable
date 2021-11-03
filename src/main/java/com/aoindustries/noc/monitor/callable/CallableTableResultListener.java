@@ -27,7 +27,6 @@ import com.aoindustries.noc.monitor.common.TableResultListener;
 import com.aoindustries.noc.monitor.wrapper.WrappedTableResultListener;
 import com.aoindustries.util.WrappedException;
 import java.rmi.RemoteException;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -43,28 +42,13 @@ public class CallableTableResultListener extends WrappedTableResultListener {
 
 	@Override
 	public final void tableResultUpdated(final TableResult tableResult) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTableResultListener.super.tableResultUpdated(tableResult);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableTableResultListener.super.tableResultUpdated(tableResult));
 	}
 
 	@Override
 	public final boolean equals(final Object obj) {
 		try {
-			return monitor.call(
-				new Callable<Boolean>() {
-					@Override
-					public Boolean call() {
-						return CallableTableResultListener.super.equals(obj);
-					}
-				}
-			);
+			return monitor.call(() -> CallableTableResultListener.super.equals(obj));
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}
@@ -73,14 +57,7 @@ public class CallableTableResultListener extends WrappedTableResultListener {
 	@Override
 	public final int hashCode() {
 		try {
-			return monitor.call(
-				new Callable<Integer>() {
-					@Override
-					public Integer call() {
-						return CallableTableResultListener.super.hashCode();
-					}
-				}
-			);
+			return monitor.call(CallableTableResultListener.super::hashCode);
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}

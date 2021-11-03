@@ -29,7 +29,6 @@ import com.aoindustries.noc.monitor.common.TreeListener;
 import com.aoindustries.noc.monitor.wrapper.WrappedRootNode;
 import java.rmi.RemoteException;
 import java.util.SortedSet;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -45,51 +44,21 @@ public class CallableRootNode extends WrappedRootNode {
 
 	@Override
 	public final void addTreeListener(final TreeListener treeListener) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableRootNode.super.addTreeListener(treeListener);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableRootNode.super.addTreeListener(treeListener));
 	}
 
 	@Override
 	public final void removeTreeListener(final TreeListener treeListener) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableRootNode.super.removeTreeListener(treeListener);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableRootNode.super.removeTreeListener(treeListener));
 	}
 
 	@Override
 	public final NodeSnapshot getSnapshot() throws RemoteException {
-		return monitor.call(
-			new Callable<NodeSnapshot>() {
-				@Override
-				public NodeSnapshot call() throws RemoteException {
-					return CallableRootNode.super.getSnapshot();
-				}
-			}
-		);
+		return monitor.call(CallableRootNode.super::getSnapshot);
 	}
 
 	@Override
 	public final SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
-		return monitor.call(
-			new Callable<SortedSet<MonitoringPoint>>() {
-				@Override
-				public SortedSet<MonitoringPoint> call() throws RemoteException {
-					return CallableRootNode.super.getMonitoringPoints();
-				}
-			}
-		);
+		return monitor.call(CallableRootNode.super::getMonitoringPoints);
 	}
 }

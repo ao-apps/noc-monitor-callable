@@ -27,7 +27,6 @@ import com.aoindustries.noc.monitor.common.SingleResultListener;
 import com.aoindustries.noc.monitor.wrapper.WrappedSingleResultListener;
 import com.aoindustries.util.WrappedException;
 import java.rmi.RemoteException;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -43,28 +42,13 @@ public class CallableSingleResultListener extends WrappedSingleResultListener {
 
 	@Override
 	public final void singleResultUpdated(final SingleResult singleResult) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableSingleResultListener.super.singleResultUpdated(singleResult);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableSingleResultListener.super.singleResultUpdated(singleResult));
 	}
 
 	@Override
 	public final boolean equals(final Object obj) {
 		try {
-			return monitor.call(
-				new Callable<Boolean>() {
-					@Override
-					public Boolean call() {
-						return CallableSingleResultListener.super.equals(obj);
-					}
-				}
-			);
+			return monitor.call(() -> CallableSingleResultListener.super.equals(obj));
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}
@@ -73,14 +57,7 @@ public class CallableSingleResultListener extends WrappedSingleResultListener {
 	@Override
 	public final int hashCode() {
 		try {
-			return monitor.call(
-				new Callable<Integer>() {
-					@Override
-					public Integer call() {
-						return CallableSingleResultListener.super.hashCode();
-					}
-				}
-			);
+			return monitor.call(CallableSingleResultListener.super::hashCode);
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}

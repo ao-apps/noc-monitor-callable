@@ -93,20 +93,13 @@ public class CallableMonitor extends WrappedMonitor {
 	@Override
 	public final CallableRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
 		try {
-			return call(
-				new Callable<CallableRootNode>() {
-					@Override
-					public CallableRootNode call() throws RemoteException {
-						try {
-							return (CallableRootNode)CallableMonitor.super.login(locale, username, password);
-						} catch(IOException e) {
-							throw new WrappedException(e);
-						} catch(SQLException e) {
-							throw new WrappedException(e);
-						}
-					}
+			return call(() -> {
+				try {
+					return (CallableRootNode)CallableMonitor.super.login(locale, username, password);
+				} catch(IOException | SQLException e) {
+					throw new WrappedException(e);
 				}
-			);
+			});
 		} catch(WrappedException e) {
 			Throwable cause = e.getCause();
 			if(cause instanceof IOException) throw (IOException)cause;
@@ -133,7 +126,7 @@ public class CallableMonitor extends WrappedMonitor {
 
 	@Override
 	protected <R extends TableMultiResult> CallableTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
-		return new CallableTableMultiResultNode<R>(this, node);
+		return new CallableTableMultiResultNode<>(this, node);
 	}
 
 	@Override
@@ -153,7 +146,7 @@ public class CallableMonitor extends WrappedMonitor {
 
 	@Override
 	protected <R extends TableMultiResult> CallableTableMultiResultListener<R> newWrappedTableMultiResultListener(TableMultiResultListener<R> tableMultiResultListener) throws RemoteException {
-		return new CallableTableMultiResultListener<R>(this, tableMultiResultListener);
+		return new CallableTableMultiResultListener<>(this, tableMultiResultListener);
 	}
 
 	@Override

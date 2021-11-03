@@ -28,7 +28,6 @@ import com.aoindustries.noc.monitor.wrapper.WrappedTreeListener;
 import com.aoindustries.util.WrappedException;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -44,54 +43,23 @@ public class CallableTreeListener extends WrappedTreeListener {
 
 	@Override
 	public final void nodeAdded() throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTreeListener.super.nodeAdded();
-					return null;
-				}
-			}
-		);
+		monitor.run(CallableTreeListener.super:nodeAdded);
 	}
 
 	@Override
 	public final void nodeRemoved() throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTreeListener.super.nodeRemoved();
-					return null;
-				}
-			}
-		);
+		monitor.run(CallableTreeListener.super::nodeRemoved);
 	}
 
 	@Override
 	public final void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
-		monitor.call(
-			new Callable<Void>() {
-				@Override
-				public Void call() throws RemoteException {
-					CallableTreeListener.super.nodeAlertLevelChanged(changes);
-					return null;
-				}
-			}
-		);
+		monitor.run(() -> CallableTreeListener.super.nodeAlertLevelChanged(changes));
 	}
 
 	@Override
 	public final boolean equals(final Object obj) {
 		try {
-			return monitor.call(
-				new Callable<Boolean>() {
-					@Override
-					public Boolean call() {
-						return CallableTreeListener.super.equals(obj);
-					}
-				}
-			);
+			return monitor.call(() -> CallableTreeListener.super.equals(obj));
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}
@@ -100,14 +68,7 @@ public class CallableTreeListener extends WrappedTreeListener {
 	@Override
 	public final int hashCode() {
 		try {
-			return monitor.call(
-				new Callable<Integer>() {
-					@Override
-					public Integer call() {
-						return CallableTreeListener.super.hashCode();
-					}
-				}
-			);
+			return monitor.call(CallableTreeListener.super::hashCode);
 		} catch(RemoteException e) {
 			throw new WrappedException(e);
 		}
