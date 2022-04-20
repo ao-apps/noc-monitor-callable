@@ -35,43 +35,43 @@ import java.util.List;
  */
 public class CallableTreeListener extends WrappedTreeListener {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableTreeListener(CallableMonitor monitor, TreeListener wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableTreeListener(CallableMonitor monitor, TreeListener wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void nodeAdded() throws RemoteException {
-		monitor.run(CallableTreeListener.super:nodeAdded);
-	}
+  @Override
+  public final void nodeAdded() throws RemoteException {
+    monitor.run(CallableTreeListener.super::nodeAdded);
+  }
 
-	@Override
-	public final void nodeRemoved() throws RemoteException {
-		monitor.run(CallableTreeListener.super::nodeRemoved);
-	}
+  @Override
+  public final void nodeRemoved() throws RemoteException {
+    monitor.run(CallableTreeListener.super::nodeRemoved);
+  }
 
-	@Override
-	public final void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
-		monitor.run(() -> CallableTreeListener.super.nodeAlertLevelChanged(changes));
-	}
+  @Override
+  public final void nodeAlertLevelChanged(final List<AlertLevelChange> changes) throws RemoteException {
+    monitor.run(() -> CallableTreeListener.super.nodeAlertLevelChanged(changes));
+  }
 
-	@Override
-	public final boolean equals(final Object obj) {
-		try {
-			return monitor.call(() -> CallableTreeListener.super.equals(obj));
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final boolean equals(final Object obj) {
+    try {
+      return monitor.call(() -> CallableTreeListener.super.equals(obj));
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 
-	@Override
-	public final int hashCode() {
-		try {
-			return monitor.call(CallableTreeListener.super::hashCode);
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final int hashCode() {
+    try {
+      return monitor.call(CallableTreeListener.super::hashCode);
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 }

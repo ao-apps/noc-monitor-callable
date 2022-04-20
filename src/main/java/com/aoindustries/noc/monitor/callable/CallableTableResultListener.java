@@ -34,33 +34,33 @@ import java.rmi.RemoteException;
  */
 public class CallableTableResultListener extends WrappedTableResultListener {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableTableResultListener(CallableMonitor monitor, TableResultListener wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableTableResultListener(CallableMonitor monitor, TableResultListener wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void tableResultUpdated(final TableResult tableResult) throws RemoteException {
-		monitor.run(() -> CallableTableResultListener.super.tableResultUpdated(tableResult));
-	}
+  @Override
+  public final void tableResultUpdated(final TableResult tableResult) throws RemoteException {
+    monitor.run(() -> CallableTableResultListener.super.tableResultUpdated(tableResult));
+  }
 
-	@Override
-	public final boolean equals(final Object obj) {
-		try {
-			return monitor.call(() -> CallableTableResultListener.super.equals(obj));
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final boolean equals(final Object obj) {
+    try {
+      return monitor.call(() -> CallableTableResultListener.super.equals(obj));
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 
-	@Override
-	public final int hashCode() {
-		try {
-			return monitor.call(CallableTableResultListener.super::hashCode);
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final int hashCode() {
+    try {
+      return monitor.call(CallableTableResultListener.super::hashCode);
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 }

@@ -35,30 +35,30 @@ import java.util.List;
  */
 public class CallableTableMultiResultNode<R extends TableMultiResult> extends WrappedTableMultiResultNode<R> {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableTableMultiResultNode(CallableMonitor monitor, TableMultiResultNode<R> wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableTableMultiResultNode(CallableMonitor monitor, TableMultiResultNode<R> wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void addTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-		monitor.run(() -> CallableTableMultiResultNode.super.addTableMultiResultListener(tableMultiResultListener));
-	}
+  @Override
+  public final void addTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+    monitor.run(() -> CallableTableMultiResultNode.super.addTableMultiResultListener(tableMultiResultListener));
+  }
 
-	@Override
-	public final void removeTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-		monitor.run(() -> CallableTableMultiResultNode.super.removeTableMultiResultListener(tableMultiResultListener));
-	}
+  @Override
+  public final void removeTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+    monitor.run(() -> CallableTableMultiResultNode.super.removeTableMultiResultListener(tableMultiResultListener));
+  }
 
-	@Override
-	public final List<?> getColumnHeaders() throws RemoteException {
-		return monitor.call(CallableTableMultiResultNode.super::getColumnHeaders);
-	}
+  @Override
+  public final List<?> getColumnHeaders() throws RemoteException {
+    return monitor.call(CallableTableMultiResultNode.super::getColumnHeaders);
+  }
 
-	@Override
-	public final List<? extends R> getResults() throws RemoteException {
-		return monitor.call(CallableTableMultiResultNode.super::getResults);
-	}
+  @Override
+  public final List<? extends R> getResults() throws RemoteException {
+    return monitor.call(CallableTableMultiResultNode.super::getResults);
+  }
 }

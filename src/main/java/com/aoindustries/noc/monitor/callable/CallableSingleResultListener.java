@@ -34,33 +34,33 @@ import java.rmi.RemoteException;
  */
 public class CallableSingleResultListener extends WrappedSingleResultListener {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableSingleResultListener(CallableMonitor monitor, SingleResultListener wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableSingleResultListener(CallableMonitor monitor, SingleResultListener wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void singleResultUpdated(final SingleResult singleResult) throws RemoteException {
-		monitor.run(() -> CallableSingleResultListener.super.singleResultUpdated(singleResult));
-	}
+  @Override
+  public final void singleResultUpdated(final SingleResult singleResult) throws RemoteException {
+    monitor.run(() -> CallableSingleResultListener.super.singleResultUpdated(singleResult));
+  }
 
-	@Override
-	public final boolean equals(final Object obj) {
-		try {
-			return monitor.call(() -> CallableSingleResultListener.super.equals(obj));
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final boolean equals(final Object obj) {
+    try {
+      return monitor.call(() -> CallableSingleResultListener.super.equals(obj));
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 
-	@Override
-	public final int hashCode() {
-		try {
-			return monitor.call(CallableSingleResultListener.super::hashCode);
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final int hashCode() {
+    try {
+      return monitor.call(CallableSingleResultListener.super::hashCode);
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 }

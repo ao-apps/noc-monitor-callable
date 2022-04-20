@@ -36,30 +36,30 @@ import java.util.SortedSet;
  */
 public class CallableRootNode extends WrappedRootNode {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableRootNode(CallableMonitor monitor, RootNode wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableRootNode(CallableMonitor monitor, RootNode wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void addTreeListener(final TreeListener treeListener) throws RemoteException {
-		monitor.run(() -> CallableRootNode.super.addTreeListener(treeListener));
-	}
+  @Override
+  public final void addTreeListener(final TreeListener treeListener) throws RemoteException {
+    monitor.run(() -> CallableRootNode.super.addTreeListener(treeListener));
+  }
 
-	@Override
-	public final void removeTreeListener(final TreeListener treeListener) throws RemoteException {
-		monitor.run(() -> CallableRootNode.super.removeTreeListener(treeListener));
-	}
+  @Override
+  public final void removeTreeListener(final TreeListener treeListener) throws RemoteException {
+    monitor.run(() -> CallableRootNode.super.removeTreeListener(treeListener));
+  }
 
-	@Override
-	public final NodeSnapshot getSnapshot() throws RemoteException {
-		return monitor.call(CallableRootNode.super::getSnapshot);
-	}
+  @Override
+  public final NodeSnapshot getSnapshot() throws RemoteException {
+    return monitor.call(CallableRootNode.super::getSnapshot);
+  }
 
-	@Override
-	public final SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
-		return monitor.call(CallableRootNode.super::getMonitoringPoints);
-	}
+  @Override
+  public final SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
+    return monitor.call(CallableRootNode.super::getMonitoringPoints);
+  }
 }

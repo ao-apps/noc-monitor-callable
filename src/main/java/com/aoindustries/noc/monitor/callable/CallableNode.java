@@ -36,77 +36,77 @@ import java.util.UUID;
  */
 public class CallableNode extends WrappedNode {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableNode(CallableMonitor monitor, Node wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableNode(CallableMonitor monitor, Node wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final CallableNode getParent() throws RemoteException {
-		return monitor.call(() -> (CallableNode)CallableNode.super.getParent());
-	}
+  @Override
+  public final CallableNode getParent() throws RemoteException {
+    return monitor.call(() -> (CallableNode)CallableNode.super.getParent());
+  }
 
-	@Override
-	public final List<? extends CallableNode> getChildren() throws RemoteException {
-		return monitor.call(() -> (List<? extends CallableNode>)CallableNode.super.getChildren());
-	}
+  @Override
+  public final List<? extends CallableNode> getChildren() throws RemoteException {
+    return monitor.call(() -> (List<? extends CallableNode>)CallableNode.super.getChildren());
+  }
 
-	@Override
-	public final AlertLevel getAlertLevel() throws RemoteException {
-		return monitor.call(CallableNode.super::getAlertLevel);
-	}
+  @Override
+  public final AlertLevel getAlertLevel() throws RemoteException {
+    return monitor.call(CallableNode.super::getAlertLevel);
+  }
 
-	@Override
-	public final String getAlertMessage() throws RemoteException {
-		return monitor.call(CallableNode.super::getAlertMessage);
-	}
+  @Override
+  public final String getAlertMessage() throws RemoteException {
+    return monitor.call(CallableNode.super::getAlertMessage);
+  }
 
-	@Override
-	public final boolean getAllowsChildren() throws RemoteException {
-		return monitor.call(CallableNode.super::getAllowsChildren);
-	}
+  @Override
+  public final boolean getAllowsChildren() throws RemoteException {
+    return monitor.call(CallableNode.super::getAllowsChildren);
+  }
 
-	@Override
-	public final String getId() throws RemoteException {
-		return monitor.call(CallableNode.super::getId);
-	}
+  @Override
+  public final String getId() throws RemoteException {
+    return monitor.call(CallableNode.super::getId);
+  }
 
-	@Override
-	public final String getLabel() throws RemoteException {
-		return monitor.call(() -> CallableNode.super::getLabel);
-	}
+  @Override
+  public final String getLabel() throws RemoteException {
+    return monitor.call(() -> CallableNode.super::getLabel);
+  }
 
-	@Override
-	public final UUID getUuid() throws RemoteException {
-		return monitor.call(CallableNode.super::getUuid);
-	}
+  @Override
+  public final UUID getUuid() throws RemoteException {
+    return monitor.call(CallableNode.super::getUuid);
+  }
 
-	@Override
-	public final boolean equals(final Object obj) {
-		try {
-			return monitor.call(() -> CallableNode.super.equals(obj));
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final boolean equals(final Object obj) {
+    try {
+      return monitor.call(() -> CallableNode.super.equals(obj));
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 
-	@Override
-	public final int hashCode() {
-		try {
-			return monitor.call(CallableNode.super::hashCode);
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final int hashCode() {
+    try {
+      return monitor.call(CallableNode.super::hashCode);
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 
-	@Override
-	public final String toString() {
-		try {
-			return monitor.call(CallableNode.super::toString);
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final String toString() {
+    try {
+      return monitor.call(CallableNode.super::toString);
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 }

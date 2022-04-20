@@ -34,25 +34,25 @@ import java.rmi.RemoteException;
  */
 public class CallableTableResultNode extends WrappedTableResultNode {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableTableResultNode(CallableMonitor monitor, TableResultNode wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableTableResultNode(CallableMonitor monitor, TableResultNode wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-		monitor.run(() -> CallableTableResultNode.super.addTableResultListener(tableResultListener));
-	}
+  @Override
+  public final void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+    monitor.run(() -> CallableTableResultNode.super.addTableResultListener(tableResultListener));
+  }
 
-	@Override
-	public final void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-		monitor.run(() -> CallableTableResultNode.super.removeTableResultListener(tableResultListener));
-	}
+  @Override
+  public final void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+    monitor.run(() -> CallableTableResultNode.super.removeTableResultListener(tableResultListener));
+  }
 
-	@Override
-	public final TableResult getLastResult() throws RemoteException {
-		return monitor.call(CallableTableResultNode.super::getLastResult);
-	}
+  @Override
+  public final TableResult getLastResult() throws RemoteException {
+    return monitor.call(CallableTableResultNode.super::getLastResult);
+  }
 }

@@ -34,25 +34,25 @@ import java.rmi.RemoteException;
  */
 public class CallableSingleResultNode extends WrappedSingleResultNode {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableSingleResultNode(CallableMonitor monitor, SingleResultNode wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableSingleResultNode(CallableMonitor monitor, SingleResultNode wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void addSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
-		monitor.run(() -> CallableSingleResultNode.super.addSingleResultListener(singleResultListener));
-	}
+  @Override
+  public final void addSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
+    monitor.run(() -> CallableSingleResultNode.super.addSingleResultListener(singleResultListener));
+  }
 
-	@Override
-	public final void removeSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
-		monitor.run(() -> CallableSingleResultNode.super.removeSingleResultListener(singleResultListener));
-	}
+  @Override
+  public final void removeSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
+    monitor.run(() -> CallableSingleResultNode.super.removeSingleResultListener(singleResultListener));
+  }
 
-	@Override
-	public final SingleResult getLastResult() throws RemoteException {
-		return monitor.call(CallableSingleResultNode.super::getLastResult);
-	}
+  @Override
+  public final SingleResult getLastResult() throws RemoteException {
+    return monitor.call(CallableSingleResultNode.super::getLastResult);
+  }
 }

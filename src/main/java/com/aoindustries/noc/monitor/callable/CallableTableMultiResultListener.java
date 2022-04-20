@@ -34,38 +34,38 @@ import java.rmi.RemoteException;
  */
 public class CallableTableMultiResultListener<R extends TableMultiResult> extends WrappedTableMultiResultListener<R> {
 
-	private final CallableMonitor monitor;
+  private final CallableMonitor monitor;
 
-	protected CallableTableMultiResultListener(CallableMonitor monitor, TableMultiResultListener<R> wrapped) {
-		super(monitor, wrapped);
-		this.monitor = monitor;
-	}
+  protected CallableTableMultiResultListener(CallableMonitor monitor, TableMultiResultListener<R> wrapped) {
+    super(monitor, wrapped);
+    this.monitor = monitor;
+  }
 
-	@Override
-	public final void tableMultiResultAdded(final R multiTableResult) throws RemoteException {
-		monitor.run(() -> CallableTableMultiResultListener.super.tableMultiResultAdded(multiTableResult));
-	}
+  @Override
+  public final void tableMultiResultAdded(final R multiTableResult) throws RemoteException {
+    monitor.run(() -> CallableTableMultiResultListener.super.tableMultiResultAdded(multiTableResult));
+  }
 
-	@Override
-	public final void tableMultiResultRemoved(final R multiTableResult) throws RemoteException {
-		monitor.run(() -> CallableTableMultiResultListener.super.tableMultiResultRemoved(multiTableResult));
-	}
+  @Override
+  public final void tableMultiResultRemoved(final R multiTableResult) throws RemoteException {
+    monitor.run(() -> CallableTableMultiResultListener.super.tableMultiResultRemoved(multiTableResult));
+  }
 
-	@Override
-	public final boolean equals(final Object obj) {
-		try {
-			return monitor.call(() -> CallableTableMultiResultListener.super.equals(obj));
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final boolean equals(final Object obj) {
+    try {
+      return monitor.call(() -> CallableTableMultiResultListener.super.equals(obj));
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 
-	@Override
-	public final int hashCode() {
-		try {
-			return monitor.call(CallableTableMultiResultListener.super::hashCode);
-		} catch(RemoteException e) {
-			throw new WrappedException(e);
-		}
-	}
+  @Override
+  public final int hashCode() {
+    try {
+      return monitor.call(CallableTableMultiResultListener.super::hashCode);
+    } catch (RemoteException e) {
+      throw new WrappedException(e);
+    }
+  }
 }
