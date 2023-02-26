@@ -13,7 +13,7 @@ Wrapper for implementing hooks and filters on [Monitoring API](https://github.co
 * [Project Home](https://aoindustries.com/noc/monitor/callable/)
 * [Changelog](https://aoindustries.com/noc/monitor/callable/changelog)
 * [API Docs](https://aoindustries.com/noc/monitor/callable/apidocs/)
-* [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-callable)
+* [Maven Central Repository](https://central.sonatype.com/search?namespace=com.aoindustries&q=a%3Anoc-monitor-callable)
 * [GitHub](https://github.com/ao-apps/noc-monitor-callable)
 
 ## Contact Us
